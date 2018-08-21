@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Display map navigation controls</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src="map.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:50%; height: 100%}
+
+  #question {
+      margin-left: 50%;
+      margin-top: -40px;
+      border: 1px solid blue;
+      width: 50%;
+  }
+
+#advice-box{
+  width:100%;
+}
+#question{
+}
+
+
+
+
+
+
+
+
+header {
+  height: 120px;
+}
+header h1 {
+    float: left;
+    margin-top: 30px;
+}
+header h1 .color {
+    color: #02b8dd;
+}
+header nav {
+    float: right;
+
+}
+header nav ul li {
+    float: left;
+    display: inline-block;
+    margin-top: 50px;
+}
+header nav ul li a {
+    color: #444;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: block;
+    margin-right: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </style>
+</head>
+
+<body>
+
+
+
+
+
+
+
+
+
+
+  <header>
+       <img id="logo" src="logo.PNG" alt="logo">
+       <nav>
+         <ul>
+              <li><a href="homepage.html">Home</a></li>
+              <li><a href="blogs.html">Blogs</a></li>
+              <li><a href="advice.html">Advice</a></li>
+              <li><a href="signup.html">Log in/Sign up</a></li>
+          </ul>
+        </nav>
+   </header>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id='map'></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiZGF5YTY3MTAiLCJhIjoiY2prc2t0MjRpNDVvMTNwbzMwbHFkdjFibSJ9.pMrbgD-TNkQFWM02yjLgGw';
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [-74.0060, 40.7128], // starting position
+    zoom: 9 // starting zoom
+});
+
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
+</script>
+<style>
+    #menu {
+        position: absolute;
+        background: #fff;
+        padding: 10px;
+        font-family: 'Open Sans', sans-serif;
+    }
+</style>
+
+<div style="display:block">
+<div id='menu'>
+    <input id='basic' type='radio' name='rtoggle' value='basic' checked='checked'>
+    <label for='basic'>basic</label>
+    <input id='streets' type='radio' name='rtoggle' value='streets'>
+    <label for='streets'>streets</label>
+    <input id='bright' type='radio' name='rtoggle' value='bright'>
+    <label for='bright'>bright</label>
+    <input id='light' type='radio' name='rtoggle' value='light'>
+    <label for='light'>light</label>
+    <input id='dark' type='radio' name='rtoggle' value='dark'>
+    <label for='dark'>dark</label>
+    <input id='satellite' type='radio' name='rtoggle' value='satellite'>
+    <label for='satellite'>satellite</label>
+</div>
+</div>
+<script>
+
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/mapbox/' + layerId + '-v9');
+}
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+map.on("load", function () {
+  /* Image: An image is loaded and added to the map. */
+  map.loadImage("https://i.imgur.com/MK4NUzI.png", function(error, image) {
+      if (error) throw error;
+      map.addImage("custom-marker", image);
+      /* Style layer: A style layer ties together the source and image and specifies how they are displayed on the map. */
+      map.addLayer({
+        id: "markers",
+        type: "symbol",
+        /* Source: A data source specifies the geographic coordinate where the image marker gets placed. */
+        source: {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features:[{"type":"Feature","geometry":{"type":"Point","coordinates":["-73.9880","40.7284"]}},
+                      {"type":"Feature","geometry":{"type":"Point","coordinates":["-74.0004","40.7303"]}},
+                      {"type":"Feature","geometry":{"type":"Point","coordinates":["-74.0006","40.7297"]}},
+                      {"type":"Feature","geometry":{"type":"Point","coordinates":["-74.0060","40.7422"]}},
+                      {"type":"Feature","geometry":{"type":"Point","coordinates":["-73.9304","40.7386"]}},
+                      {"type":"Feature","geometry":{"type":"Point","coordinates":["-73.9592","40.7167"]}},
+                      {"type":"Feature","geometry":{"type":"Point","coordinates":["-74.0011","40.7202"]}},
+                      {"type":"Feature","geometry":{"type":"Point","coordinates":["-73.9595","40.7139"]}},
+                    ]}
+        },
+        layout: {
+          "icon-image": "custom-marker",
+        }
+      });
+    });
+});
+
+
+</script>
+
+<form action="/action_page.php" id="usrform">
+  Name: <input type="text" name="usrname">
+  <input type="submit">
+</form>
+<br>
+<textarea rows="4" cols="50" name="comment" form="usrform">
+Answer The Question Here...</textarea>
+
+<br>
+<br>
+<div id="question">
+
+  <!-- begin wwww.htmlcommentbox.com -->
+ <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Comment Form</a> is loading comments...</div>
+ <link rel="stylesheet" type="text/css" href="//www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+ <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="//www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24WeIGcIL5OzfTlnNV5ER0P%2F"+"&opts=16862&num=10&ts=1534790931412");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+<!-- end www.htmlcommentbox.com -->
+
+</div>
+</body>
+</html>
